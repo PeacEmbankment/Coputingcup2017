@@ -17,9 +17,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void newthing(View view){
         Log.d("new thing void","");
-        Intent open_game1 = new Intent(context, addthingincalendar.class);
+        //Intent open_game1 = new Intent(context, addthingincalendar.class);
+
+        // Hi Justine,
+        // Don't exactly know the reason, "getBaseContext()" should be used instead of "context"
+        // Father.
+        Intent open_game1 = new Intent(getBaseContext(), addthingincalendar.class);
         Log.d("created intent","");
-        context.startActivity(open_game1);
+        startActivity(open_game1);
 
     }
     public void importtxt(View view){
