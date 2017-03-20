@@ -35,6 +35,7 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
         android:id="@+id/editText"
+        android:text=""
         android:layout_marginStart="8dp" />
 
     <EditText
@@ -44,6 +45,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:inputType="number"
+        android:text=""
         app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
         app:layout_constraintLeft_toRightOf="@+id/textView2" />
 
@@ -64,6 +66,7 @@
         app:layout_constraintLeft_toRightOf="@+id/textView2"
         android:layout_marginLeft="8dp"
         android:id="@+id/editText3"
+        android:text=""
         android:layout_marginStart="8dp" />
 
     <TextView
@@ -84,6 +87,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginStart="8dp"
         android:inputType="number"
+        android:text=""
         app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
         app:layout_constraintLeft_toRightOf="@+id/textView2" />
 
