@@ -3,6 +3,8 @@ package com.example.justinlam.coputingcup;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -47,10 +49,20 @@ public class addthingincalendar extends AppCompatActivity{
         EditText editText4 = (EditText) findViewById(R.id.editText6);
         value4 = editText4.getText().toString();
 
+
         if (value.matches("") || value2.matches("") || value3.matches("") || value4.matches("")) {
             Toast.makeText(getApplicationContext(), "You have not entered all the information", Toast.LENGTH_LONG).show();
         }
         else{
+            DBhelper dBhelper = new DBhelper(this);
+
+            SQLiteDatabase db = dBhelper.getReadableDatabase();
+
+            String insertSQL = "INSERT into activity ('activity_number', 'priority') values ('" + value + "', '" + value2 + "')";
+            Log.d("SQL test",insertSQL);
+            db.execSQL(insertSQL);
+            Log.d("","successfully inserted into db");
+
             Log.d("value1234", editextnum + "," + value2 + "," + editextnum3 + "," + value4);
             Intent open_game1 = new Intent(getBaseContext(), MainActivity.class);
             startActivity(open_game1);

@@ -12,14 +12,19 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".addthingincalendar">
-            <!--<meta-data
+
+            <!--
+                <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.justinlam.coputingcup.MainActivity" />-->
+                android:value="com.example.justinlam.coputingcup.MainActivity" />
+            -->
         </activity>
+        <activity android:name=".calendar"></activity>
     </application>
 
 </manifest>

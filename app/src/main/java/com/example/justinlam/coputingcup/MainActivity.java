@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void viewcalendar(View view){
-
+        Intent open_game1 = new Intent(getBaseContext(), calendar.class);
+        startActivity(open_game1);
     }
 }
