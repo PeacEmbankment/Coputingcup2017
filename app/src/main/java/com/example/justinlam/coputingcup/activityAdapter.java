@@ -35,6 +35,10 @@ public class activityAdapter extends RecyclerView.Adapter<activityAdapter.ViewHo
     public void onBindViewHolder(activityAdapter.ViewHolder holder, int position){
         holder.textviewactivitynumber.setText(dblist.get(position).getActivityNumber().toString());
         holder.textviewpriority.setText(dblist.get(position).getPriority().toString());
+        holder.textviewactivitytitle.setText(dblist.get(position).getActivityTitle());
+        holder.textviewduration.setText(dblist.get(position).getDuration().toString());
+        holder.textviewprerequisite.setText(dblist.get(position).getPrerequisite());
+        holder.textviewavailableperiod.setText(dblist.get(position).getAvailablePeriod());
     }
     @Override
     public int getItemCount(){
@@ -42,11 +46,15 @@ public class activityAdapter extends RecyclerView.Adapter<activityAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView textviewactivitynumber, textviewpriority;
+        public TextView textviewactivitynumber, textviewpriority,textviewactivitytitle,textviewduration,textviewprerequisite,textviewavailableperiod;
         public ViewHolder(View itemLayoutView){
             super(itemLayoutView);
             textviewactivitynumber = (TextView) itemLayoutView.findViewById(R.id.XMLactivitynumberid);
             textviewpriority = (TextView) itemLayoutView.findViewById(R.id.XMLpriorityid);
+            textviewactivitytitle = (TextView) itemLayoutView.findViewById(R.id.XMLactivitytitleid);
+            textviewduration = (TextView) itemLayoutView.findViewById(R.id.XMLdurationid);
+            textviewprerequisite = (TextView) itemLayoutView.findViewById(R.id.XMLprerequisiteid);
+            textviewavailableperiod = (TextView) itemLayoutView.findViewById(R.id.XMLavailablePeriodConcat);
         }
     }
 
