@@ -1,9 +1,14 @@
 package com.example.justinlam.coputingcup;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,10 +44,32 @@ public class MainActivity extends AppCompatActivity {
         startActivity(open_game1);
 
     }
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
     public void importtxt(View view){
+     verifyStoragePermissions(MainActivity.this);
         String aDataRow = "";
         try {
-            File myFile = new File("/sdcard/testimport.txt");
+            String filepath = Environment.getExternalStorageDirectory().getPath();
+            File myFile = new File(filepath+"/download/testimport.txt");
             FileInputStream fIn = new FileInputStream(myFile);
             BufferedReader myReader = new BufferedReader(
                     new InputStreamReader(fIn));
@@ -50,10 +77,19 @@ public class MainActivity extends AppCompatActivity {
             while ((aDataRow = myReader.readLine()) != null) {
                 Log.d("MainActivity","LogaDataRow: " + aDataRow);
             }
-            myReader.close();
+/*
+            DBhelper dBhelper = new DBhelper(this);
+
+            SQLiteDatabase db = dBhelper.getReadableDatabase();
+
+            String insertSQL = "INSERT into activity ('activity_number', 'priority', 'activity_title', 'duration', 'prerequisite') values ('" + value + "', '" + value3 + "','" + value2 + "','" + editextnum4 + "','" + prerequisite_available_arraylist + "')";
+            Log.d("SQL test",insertSQL);
+            db.execSQL(insertSQL);
+            Log.d("","successfully inserted into db");
+            myReader.close();*/
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("mainActivity",""+e);
         }
     }
     public void exporttxt(View view){
