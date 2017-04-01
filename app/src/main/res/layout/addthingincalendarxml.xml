@@ -242,4 +242,14 @@
         app:layout_constraintTop_toBottomOf="@+id/duration_edittext"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toRightOf="@+id/minutes_spinner" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="If there is no prerequisite, just leave it blank."
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button8" />
 </android.support.constraint.ConstraintLayout>

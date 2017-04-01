@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.IntegerRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,11 +22,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 import static android.R.attr.data;
 
 public class MainActivity extends AppCompatActivity {
     Context context;
+    public ArrayList<String> listArrayList = new ArrayList<String>();
+    public int a=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +73,74 @@ public class MainActivity extends AppCompatActivity {
         String aDataRow = "";
         try {
             String filepath = Environment.getExternalStorageDirectory().getPath();
-            File myFile = new File(filepath+"/download/testimport.txt");
+            File myFile = new File(filepath+"/testimport.txt");
             FileInputStream fIn = new FileInputStream(myFile);
             BufferedReader myReader = new BufferedReader(
                     new InputStreamReader(fIn));
 
+            boolean b=true;
+            int c=0;
+            int d=0;
+            int value;
             while ((aDataRow = myReader.readLine()) != null) {
-                Log.d("MainActivity","LogaDataRow: " + aDataRow);
+                //Log.d("MainActivity","LogaDataRow: " + aDataRow);
+                String[] parts = aDataRow.split(",");
+                String[] parts1 = aDataRow.split(" ");
+                String parta[] = new String[5];
+                String partb[] = new String[5];
+                if(b){b=false;Log.d("not b","");value=Integer.parseInt(aDataRow);}
+                else {
+                    if (a == 1) {
+                        for (int i = 0; i < 4; i++) {
+                            if (!parts[i].isEmpty() && !parts[i].equals("")) {
+                                parta[i] = parts[i];
+                                Log.d("a1", parta[i]);
+                            } else {
+                                Log.d("for break", "");
+                                break;
+                            }
+                        }
+                        a++;
+                    } else if(a==2){
+                        for (int i = 0; i < 2; i++) {
+                            if (!parts1[i].isEmpty() && !parts1[i].equals("")) {
+                                parta[i] = parts1[i];
+                                Log.d("a2", parta[i]);
+                                if(i==0){c=Integer.parseInt(parta[i]);}
+                                if(i==1){d=Integer.parseInt(parta[i]);}
+                            } else {
+                                Log.d("for break", "");
+                                break;
+                            }
+                        }
+                        a++;
+                    }else if(a==3){
+                        for (int i = 0; i < c; i++) {
+                            if (!parts[i].isEmpty() && !parts[i].equals("") && !parts[i].equals(" ")) {
+                                parta[i] = parts[i];
+                                Log.d("a3", parta[i]);
+                            } else {
+                                Log.d("for break", "");
+                                break;
+                            }
+                        }
+                        if(d==0) {
+                            a = 1;
+                        }else{a=4;}
+                    }else if(d>0){
+                        for (int i = 0; i < d; i++) {
+                            if (!parts[i].isEmpty() && !parts[i].equals("") && !parts[i].equals(" ")) {
+                                parta[i] = parts[i];
+                                Log.d("d>0", parta[i]);
+                            } else {
+                                Log.d("for break", "");
+                                break;
+                            }
+                        }
+                        a=1;b=true;
+                    }else{Log.d("d=0","");a=1;b=true;}
+                }
+
             }
 /*
             DBhelper dBhelper = new DBhelper(this);
