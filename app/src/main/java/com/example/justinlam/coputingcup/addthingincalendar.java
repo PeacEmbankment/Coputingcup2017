@@ -27,10 +27,12 @@ public class addthingincalendar extends AppCompatActivity{
     public static int editextnum3;
     public static int editextnum4;
     public static int peroid[];
-    public Spinner spinnerDay, spinnerHour, spinnerMin,spinnerAll,spinnerPrerequisite;
+    public Spinner spinnerDay, spinnerHour, spinnerMin,spinnerAll,spinnerPrerequisite,spinnerEndHour,spinnerEndMin;
     public ArrayList<String> period_available_arraylist = new ArrayList<String>();
     public ArrayList<String> prerequisite_available_arraylist = new ArrayList<String>();
+    public ArrayList<String> period_available_end_arraylist = new ArrayList<String>();
     private int period_number = 0;
+    private int period_number2 = 0;
     private int peroid_end_number = 0;
 
     @Override
@@ -51,6 +53,10 @@ public class addthingincalendar extends AppCompatActivity{
         ArrayAdapter<String> spinnerArrayAdapterHour = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, start_hour);
         spinnerArrayAdapterHour.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         spinnerHour.setAdapter(spinnerArrayAdapterHour);
+        spinnerEndHour = (Spinner) findViewById(R.id.hour_end_spinner);
+        ArrayAdapter<String> spinnerArrayAdapterEndHour = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, start_hour);
+        spinnerArrayAdapterEndHour.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        spinnerEndHour.setAdapter(spinnerArrayAdapterEndHour);
 
         String start_min[] = {
                 "00","01", "02", "03", "04", "05", "06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"};
@@ -58,7 +64,10 @@ public class addthingincalendar extends AppCompatActivity{
         ArrayAdapter<String> spinnerArrayAdapterMin = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, start_min);
         spinnerArrayAdapterMin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         spinnerMin.setAdapter(spinnerArrayAdapterMin);
-
+        spinnerEndMin = (Spinner) findViewById(R.id.minutes_end_spinner);
+        ArrayAdapter<String> spinnerArrayAdapterEndMin = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, start_min);
+        spinnerArrayAdapterEndMin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        spinnerEndMin.setAdapter(spinnerArrayAdapterEndMin);
     }
 
     public void back(View view){
@@ -105,15 +114,28 @@ public class addthingincalendar extends AppCompatActivity{
                 if(period_available_arraylist.get(i).substring(0,3).equals("Fri")){period_number=7200;}
                 if(period_available_arraylist.get(i).substring(0,3).equals("Sat")){period_number=8640;}
                 if(period_available_arraylist.get(i).substring(0,3).equals("Sun")){period_number=10080;}
-                period_number=period_number+Integer.valueOf(period_available_arraylist.get(i).substring(5,6))*60;
-                period_number=period_number+Integer.valueOf(period_available_arraylist.get(i).substring(8,9));
+                period_number2=period_number;
+                Log.d("period ava arraylist03 ",period_available_arraylist.get(i).substring(0,3));
+                period_number=period_number+Integer.valueOf(period_available_arraylist.get(i).substring(4,6))*60;
+                Log.d("period ava arraylist46 ",Integer.parseInt(period_available_arraylist.get(i).substring(4,6))*60+"");
+                period_number=period_number+Integer.valueOf(period_available_arraylist.get(i).substring(7,9));
+                Log.d("period ava arraylist79 ",period_available_arraylist.get(i).substring(7,9));
                 Log.d("paa",period_available_arraylist+"");
                 Log.d("period number",period_number+"");
-                peroid_end_number = period_number + editextnum4;
+
+                peroid_end_number=period_number2;
+                peroid_end_number=peroid_end_number+Integer.valueOf(period_available_arraylist.get(i).substring(10,12))*60;
+                Log.d("period ava arraylist911",Integer.parseInt(period_available_arraylist.get(i).substring(10,12))*60+"");
+                peroid_end_number=peroid_end_number+Integer.valueOf(period_available_arraylist.get(i).substring(13,15));
+                Log.d("period ava arrayli.1315",period_available_arraylist.get(i).substring(13,15));
+                Log.d("paa",period_available_arraylist+"");
+                Log.d("period number",peroid_end_number+"");
                 String insertSQL2 = "INSERT into available_period ('activity_number', 'start_time', 'end_time') values ('" + editextnum + "','" + period_number + "','" + peroid_end_number + "')";
                 Log.d("SQL2 test",insertSQL2);
                 db.execSQL(insertSQL2);
+
             }
+
 
             Intent open_game1 = new Intent(getBaseContext(), MainActivity.class);
             startActivity(open_game1);
@@ -121,7 +143,8 @@ public class addthingincalendar extends AppCompatActivity{
     }
 
     public void add_period(View view){
-        period_available_arraylist.add(spinnerDay.getSelectedItem()+" "+ spinnerHour.getSelectedItem()+":"+spinnerMin.getSelectedItem());
+        period_available_end_arraylist.add(spinnerEndHour.getSelectedItem()+":"+spinnerEndMin.getSelectedItem());
+        period_available_arraylist.add(spinnerDay.getSelectedItem()+" "+ spinnerHour.getSelectedItem()+":"+spinnerMin.getSelectedItem()+"-"+spinnerEndHour.getSelectedItem()+":"+spinnerEndMin.getSelectedItem());
         spinnerAll = (Spinner) findViewById(R.id.all_period_spinner);
         ArrayAdapter<String> spinnerArrayAdapterAll = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, period_available_arraylist);
         spinnerArrayAdapterAll.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
