@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -177,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
                         for(int i = 0;i<c;i++) {
                             int partc_int_start[]=new int[1000];
+                            Log.d("partc",partc_int_start[i]+"");
                             int partc_int_end[]=new int [1000];
                             String partc_split_space[]=partc[i].split(" ");
                             String partc_split_space_hiven[]=partc_split_space[1].split("-");
@@ -189,10 +191,15 @@ public class MainActivity extends AppCompatActivity {
                             if(partc_split_space[0].equals("Fri")){partc_int_start[i] = 7200;partc_int_end[i]= 7200;}
                             if(partc_split_space[0].equals("Sat")){partc_int_start[i] = 8640;partc_int_end[i]= 8640;}
                             if(partc_split_space[0].equals("Sun")){partc_int_start[i] = 10080;partc_int_end[i]= 10080;}
+                            Log.d("partc",partc_int_start[i]+"");
                             partc_int_start[i]=partc_int_start[i]+Integer.parseInt(partc_split_space_hiven_colon1[0])*60+Integer.parseInt(partc_split_space_hiven_colon1[1]);
+                            Log.d("partc",partc_int_start[i]+"");
                             partc_int_end[i]=partc_int_end[i]+Integer.parseInt(partc_split_space_hiven_colon2[0])*60+Integer.parseInt(partc_split_space_hiven_colon2[1]);
 
-                            String insertSQL2 = "INSERT into available_period ('activity_number', 'start_time', 'end_time') values ('" + temp_Activity_Number + "','" + partc_int_start + "','" + partc_int_end + "')";
+                            Log.d("partc",partc_int_start[i]+"");
+                            Log.d("mainActivity inport",partc_split_space[0]+" "+ partc_split_space_hiven_colon1[0]+" "+partc_split_space_hiven_colon1[1]+" "+partc_split_space_hiven_colon2[0]+" "+partc_split_space_hiven_colon2[1]);
+
+                            String insertSQL2 = "INSERT into available_period ('activity_number', 'start_time', 'end_time') values ('" + temp_Activity_Number + "','" + partc_int_start[i] + "','" + partc_int_end[i] + "')";
                             Log.d("SQL2 test", insertSQL2);
                             db.execSQL(insertSQL2);
                         }
@@ -218,22 +225,26 @@ public class MainActivity extends AppCompatActivity {
     }
     public void exporttxt(View view){
         Log.d("entered","exporttxt");
-        File patternDirectory = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString()+"/sdcard/exporttest.txt");
+        File patternDirectory = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString()+"/testexport.txt");
         patternDirectory.mkdirs();
-        String filename = "/sdcard/testexport.txt";
+        String filename = "testexport.txt";
         String string = "Hello world!";
         FileOutputStream outputStream;
 
         try {
             Log.d("entered","exporttxt try catch");
-            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream = new FileOutputStream (new File(patternDirectory.getAbsolutePath().toString()), true);
+            //outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream = new FileOutputStream (new File(patternDirectory.getAbsolutePath().toString()+"/testexport.txt"), true);
+            OutputStreamWriter myOutWriter =
+                    new OutputStreamWriter(outputStream);
+            myOutWriter.append("hello world!");
             outputStream.write(string.getBytes());
+            outputStream.write(System.getProperty("line.separator").getBytes());
+            outputStream.write("hello world skip lined ".getBytes());
             outputStream.close();
         } catch (Exception e) {
             Log.d("MainActivity","e:"+e);
         }
-
 
     }
     public File getTempFile(Context context, String url) {
@@ -255,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
         DBhelper dBhelper = new DBhelper(this);
         SQLiteDatabase db = dBhelper.getReadableDatabase();
         db.delete("activity", null, null);
+        db.delete("available_period",null,null);
         db.close ();
     }
 }
