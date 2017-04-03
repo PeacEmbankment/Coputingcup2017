@@ -202,11 +202,13 @@ public class MainActivity extends AppCompatActivity {
                             String insertSQL2 = "INSERT into available_period ('activity_number', 'start_time', 'end_time') values ('" + temp_Activity_Number + "','" + partc_int_start[i] + "','" + partc_int_end[i] + "')";
                             Log.d("SQL2 test", insertSQL2);
                             db.execSQL(insertSQL2);
-                        }
+
+                        }db.close();
                     }else{e=true;}
                 }
 
-            }/*myReader.close();*/
+            }myReader.close();
+
 
 /*
             DBhelper dBhelper = new DBhelper(ths);
