@@ -111,8 +111,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="duration"
-        app:layout_constraintLeft_toRightOf="@+id/XMLactivitytitleid"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/XMLactivitytitleid" />
 
     <TextView
         android:id="@+id/textView12"

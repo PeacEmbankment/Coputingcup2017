@@ -26,6 +26,8 @@ public class DBhelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_SQL);
         String CREATE_SQL2 = "CREATE TABLE IF NOT EXISTS available_period ( 'id' INTEGER PRIMARY KEY AUTOINCREMENT, 'activity_number' INTEGER NOT NULL, 'start_time' INTEGER NOT NULL, 'end_time' INTEGER NOT NULL)";
         db.execSQL(CREATE_SQL2);
+        String CREATE_SQL3 = "CREATE TABLE IF NOT EXISTS export (  'activity_number' INTEGER PRIMARY KEY, 'startTime' INTEGER NOT NULL,'duration' INTEGER NOT NULL)";
+        db.execSQL(CREATE_SQL3);
     }
 
     @Override
@@ -63,5 +65,28 @@ public class DBhelper extends SQLiteOpenHelper {
 
         return modelList;
     }
+    public List<databaseModelList> getExportFromDB() {
+        List<databaseModelList> modelList = new ArrayList<databaseModelList>();
+        String query;
+        query = "select export.activity_number, activity.priority, activity.activity_title, activity.duration, activity.prerequisite, export.startTime FROM activity, export WHERE export.activity_number = activity.activity_number";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
 
+        if (cursor.moveToFirst()){
+            do {
+                databaseModelList model = new databaseModelList();
+
+                model.setActivityNumber(cursor.getInt(0));
+                model.setPriority(cursor.getInt(1));
+                model.setActivityTitle(cursor.getString(2));
+                model.setDuration(cursor.getInt(3));
+                model.setPrerequisite(cursor.getString(4));
+                model.setStartTime(cursor.getInt(5));
+
+                modelList.add(model);
+            }while (cursor.moveToNext());
+        }
+
+        return modelList;
+    }
 }

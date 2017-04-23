@@ -8,6 +8,7 @@ public class databaseModelList {
     private int duration;
     private String prerequisite;
     private String availablePeriod;
+    private int startTime;
 
 
     public Integer getActivityNumber(){
@@ -55,5 +56,11 @@ public class databaseModelList {
     }
 
     public void setAvailablePeriod(String availablePeriod){this.availablePeriod = availablePeriod;}
+
+    public Integer getStartTime(){
+        return startTime;
+    }
+
+    public void setStartTime(Integer startTime){this.startTime = startTime;}
 
 }

@@ -23,7 +23,7 @@ public class calendar extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
         dBhelper = new DBhelper(this);
         dbList= new ArrayList<databaseModelList>();
-        dbList = dBhelper.getDataFromDB();
+        dbList = dBhelper.getExportFromDB();
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recycleview_in_list);
 

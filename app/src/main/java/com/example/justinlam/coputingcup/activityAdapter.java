@@ -38,7 +38,7 @@ public class activityAdapter extends RecyclerView.Adapter<activityAdapter.ViewHo
         holder.textviewactivitytitle.setText(dblist.get(position).getActivityTitle());
         holder.textviewduration.setText(dblist.get(position).getDuration().toString());
         holder.textviewprerequisite.setText(dblist.get(position).getPrerequisite());
-        holder.textviewavailableperiod.setText(dblist.get(position).getAvailablePeriod());
+        holder.textviewavailableperiod.setText(dblist.get(position).getStartTime().toString());
     }
     @Override
     public int getItemCount(){

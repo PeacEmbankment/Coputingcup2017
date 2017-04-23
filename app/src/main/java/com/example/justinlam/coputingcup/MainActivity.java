@@ -2,6 +2,7 @@ package com.example.justinlam.coputingcup;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import android.os.Handler;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,18 +27,31 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+//import java.util.logging.Handler;
 
 import static android.R.attr.data;
 import static java.lang.System.out;
+
 
 public class MainActivity extends AppCompatActivity {
     Context context;
     public ArrayList<String> listArrayList = new ArrayList<String>();
     public int a=1;
+    private ProgressDialog progressBar;
+    private int progressBarStatus = 0;
+    ProgressDialog progressDialog;
+    private Handler progressBarHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        progressBar.dismiss();
     }
 
     public void newthing(View view){
@@ -269,6 +284,47 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = dBhelper.getReadableDatabase();
         db.delete("activity", null, null);
         db.delete("available_period",null,null);
+        db.delete("export",null,null);
         db.close ();
+    }
+    public void startAI(View view){
+        /*progressBar = new ProgressDialog(view.getContext());
+        progressBar.setCancelable(true);
+        progressBar.setMessage("planning...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setProgress(0);
+        progressBar.show();
+        progressBarStatus = 0;
+        progressDialog = new ProgressDialog(this);*/
+        progressBar = new ProgressDialog(view.getContext());
+        progressBar.setCancelable(true);
+        progressBar.setMessage("Planning ...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setProgress(0);
+        progressBar.show();
+        progressBarStatus = 0;
+
+        new Thread(new Runnable(){
+            public void run(){
+                /*progressBarStatus = 1;*/
+
+                //progressDialog = ProgressDialog.show(context,"","Hello",true);
+
+                progressBarHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //progressBar.setProgress(progressBarStatus);
+                    }
+                });
+                //AI starts here
+
+
+
+                //AI ends here
+
+                progressBar.dismiss();
+                //progressDialog.dismiss();
+            }
+        }).start();
     }
 }
